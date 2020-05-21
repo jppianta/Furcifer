@@ -262,7 +262,7 @@ Module['FS_createPath']('/lib/python3.7/site-packages', 'test', true, true);
     }
   
    }
-   loadPackage({"files": [{"filename": "/lib/python3.7/site-packages/test/test.py", "start": 0, "end": 7, "audio": 0}, {"filename": "/lib/python3.7/site-packages/test/__init__.py", "start": 7, "end": 7, "audio": 0}], "remote_package_size": 7, "package_uuid": "ed915975-00b7-49b5-a518-091a2d9e6f4b"});
+   loadPackage({"files": [{"filename": "/lib/python3.7/site-packages/test/test.py", "start": 0, "end": 91, "audio": 0}, {"filename": "/lib/python3.7/site-packages/test/__init__.py", "start": 91, "end": 91, "audio": 0}], "remote_package_size": 91, "package_uuid": "851135c5-72e9-47c9-958c-2e5788caf68a"});
   
   })();
   

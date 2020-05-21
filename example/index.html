@@ -9,8 +9,6 @@
 </head>
 
 <body>
-  Pyodide test page <br>
-  Open your browser console to see pyodide output
   <script type='module' src="./furcifer.js"></script>
   <script defer type="text/javascript">
     var waitForGlobal = function (key, callback) {
@@ -22,6 +20,9 @@
         }, 100);
       }
     };
+    const valSpan = document.getElementById('valSpan');
+    const incButton = document.getElementById('inc');
+    const decButton = document.getElementById('dec');
 
     waitForGlobal("loaded", function () {
       loaded.then(() => {
@@ -29,8 +30,26 @@
         pyodide.runPython('sys.path.append("/lib/python3.7/site-packages/test")');
         pyodide.runPython('import test');
         const test = pyodide.pyimport('test')
-        console.log(test.val)
+
+        const valSpan = document.getElementById('valSpan');
+        const incButton = document.getElementById('inc');
+        const decButton = document.getElementById('dec');
+
+        valSpan.innerHTML = test.val;
+        incButton.onclick = () => {
+          test.incVal();
+          valSpan.innerHTML = test.val;
+        }
+        decButton.onclick = () => {
+          test.decVal();
+          valSpan.innerHTML = test.val;
+        }
       });
     });
   </script>
+  <h1>Furcifer Test Page</h1>
+
+  <span id='valSpan'>0</span>
+  <button id='inc'>+</button>
+  <button id='dec'>-</button>
 </body>
