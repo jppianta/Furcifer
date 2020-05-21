@@ -20,34 +20,43 @@
         }, 100);
       }
     };
-    const valSpan = document.getElementById('valSpan');
-    const incButton = document.getElementById('inc');
-    const decButton = document.getElementById('dec');
-
     waitForGlobal("loaded", function () {
       loaded.then(() => {
-        pyodide.runPython('import sys');
-        pyodide.runPython('sys.path.append("/lib/python3.7/site-packages/test")');
+        pyodide.runPython(
+          'import importlib as _importlib\n' +
+          '_importlib.invalidate_caches()\n'
+        );
         pyodide.runPython('import test');
-        const test = pyodide.pyimport('test')
 
+        const test = pyodide.pyimport('test')
+        const testModule = test.TestModule()
+
+        const timeSpan = document.getElementById('time')
         const valSpan = document.getElementById('valSpan');
         const incButton = document.getElementById('inc');
         const decButton = document.getElementById('dec');
 
-        valSpan.innerHTML = test.val;
+        valSpan.innerHTML = testModule.val;
         incButton.onclick = () => {
-          test.incVal();
-          valSpan.innerHTML = test.val;
+          testModule.incVal();
+          valSpan.innerHTML = testModule.val;
         }
+
         decButton.onclick = () => {
-          test.decVal();
-          valSpan.innerHTML = test.val;
+          testModule.decVal();
+          valSpan.innerHTML = testModule.val;
         }
+
+        setInterval(() => {
+          timeSpan.innerHTML = testModule.getTime()
+        }, 1000)
       });
     });
   </script>
   <h1>Furcifer Test Page</h1>
+  <h2>Time</h2>
+  <span id='time'>00:00:00</span>
+  <br />
 
   <span id='valSpan'>0</span>
   <button id='inc'>+</button>

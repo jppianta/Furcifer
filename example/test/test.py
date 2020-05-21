@@ -1,9 +1,17 @@
-val = 0
+import os
+import arrow
 
-def incVal():
-  global val
-  val +=1
+class TestModule():
+  def __init__(self):
+    self.val = 0
 
-def decVal():
-  global val
-  val -=1
+  def incVal(self):
+    self.val += 1
+
+  def decVal(self):
+    self.val -= 1
+
+  def getTime(self):
+    utc = arrow.utcnow()
+
+    return utc.format('HH:mm:ss')
