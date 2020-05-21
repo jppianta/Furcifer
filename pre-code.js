@@ -1,0 +1,1 @@
+const existingModule = Object.assign({}, Module);
