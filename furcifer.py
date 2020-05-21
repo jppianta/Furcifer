@@ -1,22 +1,34 @@
 import json
 import os
+import sys
 
-config_file = open('furcifer.config.json')
+def print_err(err):
+  print(f'Error: {err}')
 
-config_json = json.load(config_file)
+def print_help():
+  print('\npython furcifer.py <folder_path>')
 
-base_path = './example'
 
-base_command = f'emcc furcifer.cpp -o {base_path}/furcifer.mjs --pre-js pre-code.js --post-js post-code.js -s NO_EXIT_RUNTIME=0 -s MODULARIZE=1'
+def compile_wasm(base_path):
+  config_file = open(f'{base_path}/furcifer.config.json')
 
-def get_path(package_name):
-  global base_path
-  return f'{base_path}/{package_name}@lib/python3.7/site-packages/{package_name}'
+  config_json = json.load(config_file)
 
-if 'modules' in config_json:
-  modules = config_json['modules']
-  base_command += ' --preload-file'
-  for module in modules:
-    base_command += ' ' + get_path(module)
+  base_command = f'emcc furcifer.cpp -o {base_path}/furcifer.mjs --pre-js pre-code.js --post-js post-code.js -s NO_EXIT_RUNTIME=0 -s MODULARIZE=1'
 
-os.system(base_command)
+  def get_path(package_name):
+    return f'{base_path}/{package_name}@lib/python3.7/site-packages/{package_name}'
+
+  if 'modules' in config_json:
+    modules = config_json['modules']
+    base_command += ' --preload-file'
+    for module in modules:
+      base_command += ' ' + get_path(module)
+
+  os.system(base_command)
+
+if len(sys.argv) != 2:
+  print_err("Invalid number of arguments")
+  print_help()
+else:
+  compile_wasm(sys.argv[1])
